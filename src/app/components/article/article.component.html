@@ -1,0 +1,10 @@
+<div class="flex gap-2 justify-between border-b-2 border-b-white">
+    <p>{{ article.title }}</p>
+    @if(articlesService.status() === 'error-deleting' && articlesService.error()?.id === article.id) {
+        <p (click)="handleRetry(article)" class="text-red-500 cursor-pointer">
+            {{ retryString }}
+        </p>
+    } @else {
+        <p (click)="handleDelete(article)" class="text-red-500 cursor-pointer">{{ deleteString }}</p>
+    }
+</div>

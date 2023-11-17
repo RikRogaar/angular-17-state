@@ -1,0 +1,35 @@
+<div class="w-screen h-screen flex flex-col justify-center items-center">
+    @defer(on timer(2000)) {
+        @switch (articlesService.status()) {
+            @case ('loading') {
+                <h1>Loading...</h1>
+            }
+            @case ('error') {
+                <div class="flex flex-col items-center gap-2">
+                    <div>
+                        <button (click)="articlesService.retryArticles$.next()" class="rounded-md bg-gray-500 shadow-lg px-2 mb-2">Retry</button>
+                    </div>
+                    <p class="text-red-500">{{ articlesService.error()?.message }}</p>
+                </div>
+            }
+            @default {
+                <div class="flex flex-col gap-4 items-center">
+                    <div class="flex text-left flex-col gap-2">
+                        @for(article of articlesService.articles(); track article.title) {
+                            <app-article
+                                [article]="article"
+                                (delete)="articlesService.removeArticle$.next($event)"
+                            />
+                        }
+                    </div>
+
+                    <div>
+                        <button (click)="articlesService.resetArticles$.next()" class="rounded-md bg-gray-500 shadow-lg px-2 mb-2">Reset</button>
+                    </div>
+                </div>
+            }
+        }
+    } @placeholder {
+        <p>Placeholder while waiting on &#64;defer (2 seconds)</p>
+    }
+</div>
