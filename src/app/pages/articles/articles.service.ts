@@ -77,6 +77,19 @@ export class ArticlesService {
   // they will trigger corresponding state updates, ensuring the state reflects the latest data.
   // I'm using ngxtension to make this more readable.
   constructor() {
+    // The connect() function below is in theory the same as the code below.
+    // connect() and with() is from an external package.
+    // All it does it connect this.state with the events being emmited and updating the state accordingly.
+    // connect() from ngxtension makes this look prettier lol
+
+    // this.allArticles$.pipe(takeUntilDestroyed()).subscribe((articles) =>
+    //   this.state.update((state) => ({
+    //     ...state,
+    //     articles,
+    //     status: "success",
+    //   }))
+    // );
+
     connect(this.state)
       .with(this.allArticles$, (state, articles) => ({
         ...state,
